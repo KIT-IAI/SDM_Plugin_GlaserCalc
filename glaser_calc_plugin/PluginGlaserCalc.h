@@ -47,6 +47,9 @@ class PluginGlaserCalc : public sdm::plugin::Plugin
     sdm::plugin::PluginInfo getInfo() const override;
     std::vector<sdm::plugin::Feature*> getFeatures() const override;
 
+    sdm::plugin::ComponentInfo getComponentInfo(const sdm::plugin::RequiredComponent& requiredComponent) const override;
+    const sdm::plugin::InitializationState& getInitializationState() const override;
+
     IfcDB::Populationi* m_pDB = nullptr;
     IfcDB::utils::PopulationStates* m_States = nullptr;
 
@@ -54,4 +57,5 @@ class PluginGlaserCalc : public sdm::plugin::Plugin
     sdm::plugin::DocumentObserverImpl m_documentObserver;
     sdm::plugin::LiveLogObserver m_liveLogObserver;
     GlaserCalcAction m_GlaserCalcAction;
+    sdm::plugin::InitializationState m_initState;
 };

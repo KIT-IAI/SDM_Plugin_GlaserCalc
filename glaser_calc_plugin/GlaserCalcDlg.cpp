@@ -107,7 +107,7 @@ GlaserCalcDlg::GlaserCalcDlg( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer_1->Add( bSizer2, 1, wxEXPAND, 5 );
 
 	m_collapsiblePaneParameter = new wxCollapsiblePane( this, wxID_ANY, wxT("Parameter"), wxDefaultPosition, wxDefaultSize, wxCP_DEFAULT_STYLE );
-	m_collapsiblePaneParameter->Collapse( true );
+	m_collapsiblePaneParameter->Collapse( false );
 
 	wxBoxSizer* bSizer3;
 	bSizer3 = new wxBoxSizer( wxVERTICAL );
@@ -119,7 +119,7 @@ GlaserCalcDlg::GlaserCalcDlg( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer3->Add( m_ParameterChoice, 0, wxALL|wxEXPAND, 5 );
 
 	wxFlexGridSizer* fgSizer1_3;
-	fgSizer1_3 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer1_3 = new wxFlexGridSizer( 6, 2, 0, 0 );
 	fgSizer1_3->AddGrowableCol( 1 );
 	fgSizer1_3->SetFlexibleDirection( wxBOTH );
 	fgSizer1_3->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );

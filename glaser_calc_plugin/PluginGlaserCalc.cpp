@@ -6,6 +6,9 @@
 #include "PluginGlaserCalc.h"
 #include "GlaserCalcDlgImpl.h"
 
+#include "IFCDBInterfaceVersion.hpp"
+#include "PluginInterfaceVersion.hpp"
+
 using namespace std;
 using namespace sdm::plugin;
 
@@ -74,3 +77,22 @@ std::vector<Feature*> PluginGlaserCalc::getFeatures() const
   return features;
 }
 
+ComponentInfo PluginGlaserCalc::getComponentInfo(const RequiredComponent& requiredComponent) const
+{
+  if (requiredComponent.version == IFCDB_INTERFACE_COMPONENT_VERSION)
+  {
+    return { ComponentState::SUPPORTED, std::string{IFCDB_INTERFACE_COMPONENT_VERSION} };
+  }
+
+  if (requiredComponent.version == PLUGIN_INTERFACE_COMPONENT_VERSION)
+  {
+    return { ComponentState::SUPPORTED, std::string{PLUGIN_INTERFACE_COMPONENT_VERSION} };
+  }
+
+  return { ComponentState::UNSUPPORTED, "" };
+}
+
+const sdm::plugin::InitializationState& PluginGlaserCalc::getInitializationState() const
+{
+  return m_initState;
+}

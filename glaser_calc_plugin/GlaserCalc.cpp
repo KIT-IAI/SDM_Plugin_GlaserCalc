@@ -214,6 +214,18 @@ void GlaserCalc::processMaterial(IfcDB::Material::MaterialBase* pMaterialBase)
   }
 }
 
+double GlaserCalc::calcPs(double phi)
+{
+  if (phi > 0)
+  {
+    return (288.68 * pow((1.0981 + (phi / 100.0)), 8.02));
+  }
+  else
+  {
+    return (4.689 * pow((1.486 + (phi / 100.0)), 12.3));
+  }
+}
+
 void GlaserCalc::calc()
 {
   m_GlaserData.results.clear();
@@ -221,6 +233,7 @@ void GlaserCalc::calc()
   double unitFactor = m_pDB->getUnitFactor(_T("LENGTHUNIT")) / 1000;
 
   double R(0.0);
+  double Sd(0.0);
 
   for (auto& layer : m_GlaserData.layers)
   {
@@ -239,6 +252,7 @@ void GlaserCalc::calc()
     }
 
     R += layer.R;
+    Sd += layer.Sd;
   }
 
   auto it = m_GlaserData.parameterSets.find(L"DewPeriod");
@@ -252,13 +266,13 @@ void GlaserCalc::calc()
   double T = it->second.ThetaInside - q * (it->second.RInside);
 
   m_GlaserData.results.T.emplace_back(T);
-  m_GlaserData.results.Ps.emplace_back((288.88 * pow((1.098 + (T / 100.0)), 8.02)));
+  m_GlaserData.results.Ps.emplace_back(calcPs(T));
 
   for (auto& layer : m_GlaserData.layers)
   {
     T = T - (q * layer.R);
 
     m_GlaserData.results.T.emplace_back(T);
-    m_GlaserData.results.Ps.emplace_back((288.88 * pow((1.098 + (T / 100.0)), 8.02)));
+    m_GlaserData.results.Ps.emplace_back(calcPs(T));
   }
 }

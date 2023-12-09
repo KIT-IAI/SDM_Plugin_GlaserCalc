@@ -56,6 +56,23 @@ void GlaserDiagram::OnPaint(wxPaintEvent& event)
       double PsXa = origin.m_x, PsYa = origin.m_y - (yChartRange * m_pParameter->PsInside) / m_pParameter->PsInside;
       double PsXe = 0.0, PsYe = 0.0;
 
+      if (!m_pGlaserData->results.Ps.empty())
+      {
+        // Internal air -> Internal surface
+        PsXe = origin.m_x;
+        PsYe = origin.m_y - (yChartRange * m_pGlaserData->results.Ps[i] / m_pParameter->PsInside);
+
+        pContext->SetPen(*wxRED_PEN);
+        pContext->StrokeLine(PsXa, PsYa, PsXe, PsYe);
+
+        PsXa = PsXe;
+        PsYa = PsYe;
+      }
+
+      // Ps
+      pContext->SetPen(*wxRED_PEN);
+      pContext->StrokeLine(PsXa, PsYa, PsXe, PsYe);
+
       for (auto& layer : m_pGlaserData->layers)
       {
         xPos += range * layer.Sd;
@@ -72,7 +89,7 @@ void GlaserDiagram::OnPaint(wxPaintEvent& event)
           //if ((Range * Sd[i]) < 10) PsXa = 578 + NewX - 10;
 
           PsXe = origin.m_x + xPos;
-          PsYe = origin.m_y - (yChartRange * m_pGlaserData->results.Ps[i] / m_pParameter->PsInside);
+          PsYe = origin.m_y - (yChartRange * m_pGlaserData->results.Ps[i+1] / m_pParameter->PsInside);
 
           // Ps
           pContext->SetPen(*wxRED_PEN);
@@ -83,6 +100,15 @@ void GlaserDiagram::OnPaint(wxPaintEvent& event)
 
         PsXa = PsXe;
         PsYa = PsYe;
+      }
+
+      if (!m_pGlaserData->results.Ps.empty())
+      {
+        // Outside surface -> Outside air
+        PsYe = origin.m_y - (yChartRange * m_pParameter->PsOutside / m_pParameter->PsInside);
+
+        pContext->SetPen(*wxRED_PEN);
+        pContext->StrokeLine(PsXa, PsYa, PsXe, PsYe);
       }
 
       // Ps Inside -> Ps Outside
@@ -159,16 +185,17 @@ void GlaserDiagram::drawTicks(wxGraphicsContext* pContext, const wxPoint2DDouble
     return;
   }
 
-  int minValue = m_pParameter->PsInside;
-  int maxValue = m_pParameter->PsOutside;
+  int insideValue = m_pParameter->PsInside;
+  int outsideValue = m_pParameter->PsOutside;
 
   wxPaintDC dc(this);
-  wxSize textSizeMinValue = dc.GetTextExtent(wxString::FromDouble(minValue));
-  wxSize textSizeMaxValue = dc.GetTextExtent(wxString::FromDouble(maxValue));
+  wxSize textSizeInsideValue = dc.GetTextExtent(wxString::FromDouble(insideValue));
+  wxSize textSizeOutsideValue = dc.GetTextExtent(wxString::FromDouble(outsideValue));
 
   pContext->SetFont(*wxNORMAL_FONT, wxColor(*wxBLACK));
-  pContext->DrawText(wxString::FromDouble(minValue), origin.m_x - textSizeMinValue.GetWidth() - tickLength, origin.m_y - yChartRange - ((double)textSizeMinValue.y / 2));
-  pContext->DrawText(wxString::FromDouble(maxValue), origin.m_x - textSizeMaxValue.GetWidth() - tickLength, origin.m_y - ((double)textSizeMinValue.y / 2));
+  pContext->DrawText(wxString::FromDouble(insideValue), origin.m_x - textSizeInsideValue.GetWidth() - tickLength, origin.m_y - yChartRange - ((double)textSizeInsideValue.y / 2));
+  int yPosOutsideValue = origin.m_y - (yChartRange * m_pParameter->PsOutside / m_pParameter->PsInside);
+  pContext->DrawText(wxString::FromDouble(outsideValue), origin.m_x - textSizeOutsideValue.GetWidth() - tickLength, yPosOutsideValue - ((double)textSizeInsideValue.y / 2));
 
   // X ticks
   double xPos(origin.m_x);

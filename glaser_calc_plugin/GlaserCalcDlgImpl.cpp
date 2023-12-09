@@ -38,12 +38,12 @@ GlaserCalcDlgImpl::GlaserCalcDlgImpl(wxWindow* parent, wxWindowID id, const wxSt
   m_PsInsideCtrl->SetEditable(false);
   m_PsOutsideCtrl->SetEditable(false);
 
-  wxFloatingPointValidator<float> floatValidatorPhiInside(1, &m_PhiInside, wxNUM_VAL_ZERO_AS_BLANK);
-  floatValidatorPhiInside.SetRange(0, 100);
+  wxFloatingPointValidator<float> floatValidatorPhiInside(3, &m_PhiInside, wxNUM_VAL_ZERO_AS_BLANK);
+  floatValidatorPhiInside.SetRange(0, 10);
   m_PhiInsideCtrl->SetValidator(floatValidatorPhiInside);
 
-  wxFloatingPointValidator<float> floatValidatorPhiOutside(1, &m_PhiOutside, wxNUM_VAL_ZERO_AS_BLANK);
-  floatValidatorPhiOutside.SetRange(0, 100);
+  wxFloatingPointValidator<float> floatValidatorPhiOutside(3, &m_PhiOutside, wxNUM_VAL_ZERO_AS_BLANK);
+  floatValidatorPhiOutside.SetRange(0, 10);
   m_PhiOutsideCtrl->SetValidator(floatValidatorPhiOutside);
 
   wxFloatingPointValidator<float> floatValidatorThetaInside(1, &m_ThetaInside, wxNUM_VAL_ZERO_AS_BLANK);
@@ -100,10 +100,10 @@ void GlaserCalcDlgImpl::OnPhiInsideKillFocus(wxFocusEvent& event)
 
     if (pParameter != nullptr)
     {
+      TransferDataFromWindow();
+
       pParameter->PhiInside = m_PhiInside;
     }
-
-    TransferDataFromWindow();
   }
   
   updateValues();
@@ -119,10 +119,10 @@ void GlaserCalcDlgImpl::OnPhiOutsideKillFocus(wxCommandEvent& event)
 
     if (pParameter != nullptr)
     {
+      TransferDataFromWindow();
+
       pParameter->PhiOutside = m_PhiOutside;
     }
-
-    TransferDataFromWindow();
   }
 
   updateValues();
@@ -138,10 +138,10 @@ void GlaserCalcDlgImpl::OnThetaInsideKillFocus(wxCommandEvent& event)
 
     if (pParameter != nullptr)
     {
+      TransferDataFromWindow();
+
       pParameter->ThetaInside = m_ThetaInside;
     }
-
-    TransferDataFromWindow();
   }
 
   updateValues();
@@ -157,10 +157,10 @@ void GlaserCalcDlgImpl::OnThetaOutsideKillFocus(wxCommandEvent& event)
 
     if (pParameter != nullptr)
     {
+      TransferDataFromWindow();
+
       pParameter->ThetaOutside = m_ThetaOutside;
     }
-
-    TransferDataFromWindow();
   }
 
   updateValues();
@@ -176,10 +176,10 @@ void GlaserCalcDlgImpl::OnPsInsideKillFocus(wxCommandEvent& event)
 
     if (pParameter != nullptr)
     {
+      TransferDataFromWindow();
+
       pParameter->PsInside = m_PsInside;
     }
-
-    TransferDataFromWindow();
   }
 
   updateValues();
@@ -195,10 +195,10 @@ void GlaserCalcDlgImpl::OnPsOutsideKillFocus(wxCommandEvent& event)
 
     if (pParameter != nullptr)
     {
+      TransferDataFromWindow();
+
       pParameter->PsOutside = m_PsOutside;
     }
-
-    TransferDataFromWindow();
   }
 
   updateValues();

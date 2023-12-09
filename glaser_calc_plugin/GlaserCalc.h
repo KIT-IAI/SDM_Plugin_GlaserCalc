@@ -28,6 +28,7 @@ class GlaserCalc
 
   private:
     void processMaterial(IfcDB::MaterialBase* pMaterialBase);
+    double calcPs(double phi);
 
   private:
     IfcDB::Populationi* m_pDB = nullptr;
