@@ -27,7 +27,6 @@ GlaserCalcAction::~GlaserCalcAction()
 
 void GlaserCalcAction::execute() const
 {
-
   wxInitialize();
 
   auto pDlg = new GlaserCalcDlgImpl(nullptr, wxID_ANY, wxT("Glaser Calculation"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE);

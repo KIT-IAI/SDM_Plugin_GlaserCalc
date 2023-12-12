@@ -6,23 +6,23 @@ IMPLEMENT_APP_NO_MAIN(MyApp)
 
 bool MyApp::OnInit()
 {
-	return true;
+  return true;
 }
 
 int MyApp::OnExit()
 {
-	return 0;
+  return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////
 
 GlaserCalcDlgImpl::GlaserCalcDlgImpl(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style)
-	: GlaserCalcDlg(parent, id, title, pos, size, style)
+  : GlaserCalcDlg(parent, id, title, pos, size, style)
 {
-	SetSize(wxSize(379, 1026));
-	Centre();
+  SetSize(wxSize(379, 1026));
+  Centre();
 
-	SetDoubleBuffered(true);
+  SetDoubleBuffered(true);
 
   m_grid->SetColFormatFloat(1, -1, 2);
   m_grid->SetColFormatFloat(2, -1, 0);
@@ -69,34 +69,40 @@ GlaserCalcDlgImpl::~GlaserCalcDlgImpl()
 
 void GlaserCalcDlgImpl::OnGridCmdCellChanged(wxGridEvent& event)
 {
-	wxString valueStr = m_grid->GetCellValue(event.GetRow(), event.GetCol());
+  wxString valueStr = m_grid->GetCellValue(event.GetRow(), event.GetCol());
 
-	auto it = m_valueLookUp.find(std::make_pair(event.GetRow(), event.GetCol()));
+  auto it = m_valueLookUp.find(std::make_pair(event.GetRow(), event.GetCol()));
 
-	double value(0.0);
+  double value(0.0);
 
   if (it != m_valueLookUp.end() && valueStr.ToCDouble(&value))
   {
-		*it->second = value;
+    *it->second = value;
   }
 
-	m_pGlaserCalc->calc();
+  m_pGlaserCalc->calc();
 
-	updateValues();
+  updateValues();
 }
 
 void GlaserCalcDlgImpl::OnParameterChoice(wxCommandEvent& event)
 {
-  updateValues();
+  if (m_pGlaserCalc != nullptr)
+  {
+    m_pGlaserCalc->getGlaserData().pCurrentParameterData = getCurrentParameterData();
+    m_pGlaserCalc->calc();
+
+    updateValues();
+  }
 }
 
 void GlaserCalcDlgImpl::OnPhiInsideKillFocus(wxFocusEvent& event)
 {
+  event.Skip();
+
   if (m_PhiInsideCtrl->IsEditable())
   {
-    int selection = m_ParameterChoice->GetSelection();
-
-    const auto pParameter = getParameter(selection);
+    const auto pParameter = getCurrentParameterData();
 
     if (pParameter != nullptr)
     {
@@ -104,18 +110,20 @@ void GlaserCalcDlgImpl::OnPhiInsideKillFocus(wxFocusEvent& event)
 
       pParameter->PhiInside = m_PhiInside;
     }
-  }
   
-  updateValues();
+    m_pGlaserCalc->calc();
+
+    updateValues();
+  }
 }
 
-void GlaserCalcDlgImpl::OnPhiOutsideKillFocus(wxCommandEvent& event)
+void GlaserCalcDlgImpl::OnPhiOutsideKillFocus(wxFocusEvent& event)
 {
+  event.Skip();
+
   if (m_PhiOutsideCtrl->IsEditable())
   {
-    int selection = m_ParameterChoice->GetSelection();
-
-    const auto pParameter = getParameter(selection);
+    const auto pParameter = getCurrentParameterData();
 
     if (pParameter != nullptr)
     {
@@ -123,18 +131,20 @@ void GlaserCalcDlgImpl::OnPhiOutsideKillFocus(wxCommandEvent& event)
 
       pParameter->PhiOutside = m_PhiOutside;
     }
-  }
 
-  updateValues();
+    m_pGlaserCalc->calc();
+
+    updateValues();
+  }
 }
 
-void GlaserCalcDlgImpl::OnThetaInsideKillFocus(wxCommandEvent& event)
+void GlaserCalcDlgImpl::OnThetaInsideKillFocus(wxFocusEvent& event)
 {
+  event.Skip();
+
   if (m_ThetaInsideCtrl->IsEditable())
   {
-    int selection = m_ParameterChoice->GetSelection();
-
-    const auto pParameter = getParameter(selection);
+    const auto pParameter = getCurrentParameterData();
 
     if (pParameter != nullptr)
     {
@@ -147,13 +157,13 @@ void GlaserCalcDlgImpl::OnThetaInsideKillFocus(wxCommandEvent& event)
   updateValues();
 }
 
-void GlaserCalcDlgImpl::OnThetaOutsideKillFocus(wxCommandEvent& event)
+void GlaserCalcDlgImpl::OnThetaOutsideKillFocus(wxFocusEvent& event)
 {
+  event.Skip();
+
   if (m_ThetaOutsideCtrl->IsEditable())
   {
-    int selection = m_ParameterChoice->GetSelection();
-
-    const auto pParameter = getParameter(selection);
+    const auto pParameter = getCurrentParameterData();
 
     if (pParameter != nullptr)
     {
@@ -161,18 +171,20 @@ void GlaserCalcDlgImpl::OnThetaOutsideKillFocus(wxCommandEvent& event)
 
       pParameter->ThetaOutside = m_ThetaOutside;
     }
-  }
 
-  updateValues();
+    m_pGlaserCalc->calc();
+
+    updateValues();
+  }
 }
 
-void GlaserCalcDlgImpl::OnPsInsideKillFocus(wxCommandEvent& event)
+void GlaserCalcDlgImpl::OnPsInsideKillFocus(wxFocusEvent& event)
 {
+  event.Skip();
+
   if (m_PsInsideCtrl->IsEditable())
   {
-    int selection = m_ParameterChoice->GetSelection();
-
-    const auto pParameter = getParameter(selection);
+    const auto pParameter = getCurrentParameterData();
 
     if (pParameter != nullptr)
     {
@@ -180,18 +192,20 @@ void GlaserCalcDlgImpl::OnPsInsideKillFocus(wxCommandEvent& event)
 
       pParameter->PsInside = m_PsInside;
     }
-  }
 
-  updateValues();
+    m_pGlaserCalc->calc();
+
+    updateValues();
+  }
 }
 
-void GlaserCalcDlgImpl::OnPsOutsideKillFocus(wxCommandEvent& event)
+void GlaserCalcDlgImpl::OnPsOutsideKillFocus(wxFocusEvent& event)
 {
+  event.Skip();
+
   if (m_PsOutsideCtrl->IsEditable())
   {
-    int selection = m_ParameterChoice->GetSelection();
-
-    const auto pParameter = getParameter(selection);
+    const auto pParameter = getCurrentParameterData();
 
     if (pParameter != nullptr)
     {
@@ -199,13 +213,17 @@ void GlaserCalcDlgImpl::OnPsOutsideKillFocus(wxCommandEvent& event)
 
       pParameter->PsOutside = m_PsOutside;
     }
-  }
 
-  updateValues();
+    m_pGlaserCalc->calc();
+
+    updateValues();
+  }
 }
 
-ParameterData* GlaserCalcDlgImpl::getParameter(int selection)
+ParameterData* GlaserCalcDlgImpl::getCurrentParameterData()
 {
+  int selection = m_ParameterChoice->GetSelection();
+
   if (m_pGlaserCalc == nullptr)
   {
     return nullptr;
@@ -224,6 +242,12 @@ ParameterData* GlaserCalcDlgImpl::getParameter(int selection)
   else
   {
     it = m_pGlaserCalc->getGlaserData().parameterSets.find(_T("UserDefinedPeriod"));
+
+    if (it != m_pGlaserCalc->getGlaserData().parameterSets.end() && it->second == ParameterData(_T("UserDefinedPeriod")))
+    {
+      it->second = *m_pGlaserCalc->getGlaserData().pCurrentParameterData;
+      it->second.name = _T("UserDefinedPeriod");
+    }
   }
 
   if (it != m_pGlaserCalc->getGlaserData().parameterSets.end())
@@ -276,9 +300,7 @@ void GlaserCalcDlgImpl::updateValues()
 {
   GlaserData& glaserData = m_pGlaserCalc->getGlaserData();
 
-  int selection = m_ParameterChoice->GetSelection();
-
-  const auto pParameter = getParameter(selection);
+  const auto pParameter = getCurrentParameterData();
 
   if (pParameter == nullptr)
   {
@@ -290,96 +312,106 @@ void GlaserCalcDlgImpl::updateValues()
   m_GlaserDiagram->setParameterData(pParameter);
   m_GlaserDiagram->setGlaserData(&glaserData);
 
-	createLookup(glaserData.layers);
+  createLookup(glaserData.layers);
 
-	m_grid->DeleteRows(0, m_grid->GetNumberRows());
+  m_grid->DeleteRows(0, m_grid->GetNumberRows());
 
-	m_ElementNameCtrl->SetValue(glaserData.elementName);
+  m_ElementNameCtrl->SetValue(glaserData.elementName);
   m_ElementTypeCtrl->SetValue(glaserData.elementType);
 
-	double R(0.0);
-	int row(0);
+  double R(0.0);
+  int row(0);
 
-	for (auto& layer : glaserData.layers)
-	{
-		m_grid->AppendRows();
+  for (auto& layer : glaserData.layers)
+  {
+    m_grid->AppendRows();
 
-		R += layer.R;
+    R += layer.R;
 
-		// name
-		m_grid->SetCellValue(row, 0, layer.name);
-		m_grid->SetReadOnly(row, 0, true);
+    // name
+    m_grid->SetCellValue(row, 0, layer.name);
+    m_grid->SetReadOnly(row, 0, true);
 
-		// width
-		m_grid->SetCellValue(row, 1, wxString::FromDouble(layer.width));
+    // width
+    m_grid->SetCellValue(row, 1, wxString::FromDouble(layer.width));
 
-		if (layer.width <= 0.0)
-		{
+    if (layer.width <= 0.0)
+    {
       m_grid->SetCellBackgroundColour(row, 1, *wxRED);
-		}
+    }
 
-		// mue
-		m_grid->SetCellValue(row, 2, wxString::FromDouble(layer.mue));
+    // mue
+    m_grid->SetCellValue(row, 2, wxString::FromDouble(layer.mue));
 
     if (layer.mue <= 0.0)
     {
       m_grid->SetCellBackgroundColour(row, 2, *wxRED);
     }
 
-		// Sd
-		m_grid->SetCellValue(row, 3, wxString::FromDouble(layer.Sd));
-		m_grid->SetReadOnly(row, 3, true);
-		m_grid->SetCellBackgroundColour(row, 3, wxColor(224,224,224));
+    // Sd
+    double layerSd = layer.calcSd();
 
-		// lambda
-		m_grid->SetCellValue(row, 4, wxString::FromDouble(layer.lambda));
+    m_grid->SetCellValue(row, 3, wxString::FromDouble(layerSd));
+    m_grid->SetReadOnly(row, 3, true);
+    m_grid->SetCellBackgroundColour(row, 3, wxColor(224,224,224));
+
+    // lambda
+    m_grid->SetCellValue(row, 4, wxString::FromDouble(layer.lambda));
 
     if (layer.lambda <= 0.0)
     {
       m_grid->SetCellBackgroundColour(row, 4, *wxRED);
     }
 
-		// T
-		if (!glaserData.results.T.empty())
-		{
-			m_grid->SetCellValue(row, 5, wxString::FromDouble(glaserData.results.T[row+1]));
-		}
+    // T
+    if (!glaserData.results.T.empty())
+    {
+      m_grid->SetCellValue(row, 5, wxString::FromDouble(glaserData.results.T[row+1]));
+    }
 
     m_grid->SetReadOnly(row, 5, true);
     m_grid->SetCellBackgroundColour(row, 5, wxColor(224, 224, 224));
 
-		// Ps
-		if (!glaserData.results.Ps.empty())
-		{
-			m_grid->SetCellValue(row, 6, wxString::FromDouble(glaserData.results.Ps[row + 1]));
-		}
+    // Ps
+    if (!glaserData.results.Ps.empty())
+    {
+      m_grid->SetCellValue(row, 6, wxString::FromDouble(glaserData.results.Ps[row + 1]));
+    }
 
-		m_grid->SetReadOnly(row, 6, true);
+    m_grid->SetReadOnly(row, 6, true);
     m_grid->SetCellBackgroundColour(row, 6, wxColor(224, 224, 224));
 
-		++row;
-	}
+    ++row;
+  }
 
-  R += pParameter->RInside;
-  R += pParameter->ROutside;
+  R += pParameter->RsInside;
+  R += pParameter->RsOutside;
 
-	m_UValueCtrl->SetValue(wxString::FromDouble(1/R));
+  m_UValueCtrl->SetValue(wxString::FromDouble(1/R));
 
-	m_grid->AutoSizeColumns();
+  m_mtCtrl->SetValue(wxString::FromDouble(glaserData.results.mT));
+  m_mvCtrl->SetValue(wxString::FromDouble(glaserData.results.mV));
+
+  if (glaserData.results.mT > glaserData.results.mV)
+  {
+    m_mtCtrl->SetForegroundColour(*wxBLACK);
+    m_mvCtrl->SetForegroundColour(*wxBLACK);
+  }
+
+  m_grid->AutoSizeColumns();
 
   m_GlaserDiagram->Refresh();
 }
 
-
 void GlaserCalcDlgImpl::createLookup(std::vector<LayerData>& layers)
 {
-	m_valueLookUp.clear();
+  m_valueLookUp.clear();
 
   int row(0);
   for (auto& layer : layers)
   {
-		m_valueLookUp.emplace(std::make_pair(row, 1), &layer.width);
-		m_valueLookUp.emplace(std::make_pair(row, 2), &layer.mue);
+    m_valueLookUp.emplace(std::make_pair(row, 1), &layer.width);
+    m_valueLookUp.emplace(std::make_pair(row, 2), &layer.mue);
     m_valueLookUp.emplace(std::make_pair(row, 4), &layer.lambda);
 
     ++row;
@@ -388,6 +420,6 @@ void GlaserCalcDlgImpl::createLookup(std::vector<LayerData>& layers)
 
 void GlaserCalcDlgImpl::OnInitDialog(wxInitDialogEvent& event)
 {
-	DoGetBestClientSize();
-	DoGetBestSize();
+  DoGetBestClientSize();
+  DoGetBestSize();
 }

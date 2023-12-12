@@ -88,17 +88,31 @@ GlaserCalcDlg::GlaserCalcDlg( wxWindow* parent, wxWindowID id, const wxString& t
 	bSizer2->Add( m_GlaserDiagram, 1, wxALL|wxEXPAND, 5 );
 
 	wxFlexGridSizer* fgSizer1_2;
-	fgSizer1_2 = new wxFlexGridSizer( 1, 2, 0, 0 );
+	fgSizer1_2 = new wxFlexGridSizer( 3, 2, 0, 0 );
 	fgSizer1_2->AddGrowableCol( 1 );
 	fgSizer1_2->SetFlexibleDirection( wxBOTH );
 	fgSizer1_2->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 
-	m_UValueText = new wxStaticText( this, wxID_ANY, wxT("U-Value"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_UValueText = new wxStaticText( this, wxID_ANY, wxT("U-Value [W/m²K]"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_UValueText->Wrap( -1 );
 	fgSizer1_2->Add( m_UValueText, 0, wxALL, 5 );
 
 	m_UValueCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
 	fgSizer1_2->Add( m_UValueCtrl, 0, wxALL|wxEXPAND, 5 );
+
+	m_mtText = new wxStaticText( this, wxID_ANY, wxT("mT [kg/m²]"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_mtText->Wrap( -1 );
+	fgSizer1_2->Add( m_mtText, 0, wxALL, 5 );
+
+	m_mtCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
+	fgSizer1_2->Add( m_mtCtrl, 0, wxALL|wxEXPAND, 5 );
+
+	m_mvText = new wxStaticText( this, wxID_ANY, wxT("mV [kg/m²]"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_mvText->Wrap( -1 );
+	fgSizer1_2->Add( m_mvText, 0, wxALL, 5 );
+
+	m_mvCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
+	fgSizer1_2->Add( m_mvCtrl, 0, wxALL|wxEXPAND, 5 );
 
 
 	bSizer2->Add( fgSizer1_2, 0, wxEXPAND, 5 );

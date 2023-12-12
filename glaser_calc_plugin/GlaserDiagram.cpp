@@ -45,7 +45,7 @@ void GlaserDiagram::OnPaint(wxPaintEvent& event)
     {
       for (auto& layer : m_pGlaserData->layers)
       {
-        sumSd += layer.Sd;
+        sumSd += layer.calcSd();
       }
 
       double range = xChartRange / sumSd;
@@ -75,9 +75,11 @@ void GlaserDiagram::OnPaint(wxPaintEvent& event)
 
       for (auto& layer : m_pGlaserData->layers)
       {
-        xPos += range * layer.Sd;
+        double layerSd = layer.calcSd();
 
-        if (layer.Sd > 0.0 && (range * layer.Sd) < 10) xPos += 10;
+        xPos += range * layerSd;
+
+        if (layerSd > 0.0 && (range * layerSd) < 10) xPos += 10;
 
         // Sd
         pContext->SetPen(*wxBLUE_PEN);
@@ -195,7 +197,7 @@ void GlaserDiagram::drawTicks(wxGraphicsContext* pContext, const wxPoint2DDouble
   pContext->SetFont(*wxNORMAL_FONT, wxColor(*wxBLACK));
   pContext->DrawText(wxString::FromDouble(insideValue), origin.m_x - textSizeInsideValue.GetWidth() - tickLength, origin.m_y - yChartRange - ((double)textSizeInsideValue.y / 2));
   int yPosOutsideValue = origin.m_y - (yChartRange * m_pParameter->PsOutside / m_pParameter->PsInside);
-  pContext->DrawText(wxString::FromDouble(outsideValue), origin.m_x - textSizeOutsideValue.GetWidth() - tickLength, yPosOutsideValue - ((double)textSizeInsideValue.y / 2));
+  pContext->DrawText(wxString::FromDouble(outsideValue), origin.m_x - textSizeOutsideValue.GetWidth() - tickLength, yPosOutsideValue - ((double)textSizeOutsideValue.y / 2));
 
   // X ticks
   double xPos(origin.m_x);

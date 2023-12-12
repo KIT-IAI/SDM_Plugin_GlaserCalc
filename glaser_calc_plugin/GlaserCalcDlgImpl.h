@@ -30,10 +30,10 @@ class GlaserCalcDlgImpl : public GlaserCalcDlg
   public:
     void setGlaserCalc(GlaserCalc& glaserCalc) { m_pGlaserCalc = &glaserCalc; }
     void updateValues();
+    ParameterData* getCurrentParameterData();
 
   private:
     void createLookup(std::vector<LayerData>& layers);
-    ParameterData* getParameter(int selection);
     void updateParameterFields(ParameterData* pParameter);
 
   private:
@@ -41,11 +41,11 @@ class GlaserCalcDlgImpl : public GlaserCalcDlg
     virtual void OnGridCmdCellChanged(wxGridEvent& event);
     virtual void OnParameterChoice(wxCommandEvent& event);
     virtual void OnPhiInsideKillFocus(wxFocusEvent& event);
-    virtual void OnPhiOutsideKillFocus(wxCommandEvent& event);
-    virtual void OnThetaInsideKillFocus(wxCommandEvent& event);
-    virtual void OnThetaOutsideKillFocus(wxCommandEvent& event);
-    virtual void OnPsInsideKillFocus(wxCommandEvent& event);
-    virtual void OnPsOutsideKillFocus(wxCommandEvent& event);
+    virtual void OnPhiOutsideKillFocus(wxFocusEvent& event);
+    virtual void OnThetaInsideKillFocus(wxFocusEvent& event);
+    virtual void OnThetaOutsideKillFocus(wxFocusEvent& event);
+    virtual void OnPsInsideKillFocus(wxFocusEvent& event);
+    virtual void OnPsOutsideKillFocus(wxFocusEvent& event);
 
   private:
     GlaserCalc* m_pGlaserCalc = nullptr;

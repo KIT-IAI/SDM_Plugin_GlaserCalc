@@ -28,6 +28,7 @@ class GlaserCalc
 
   private:
     void processMaterial(IfcDB::MaterialBase* pMaterialBase);
+    void checkMaterialProperties(LayerData& layerData, std::vector<IfcDB::Property*>& vProperties);
     double calcPs(double phi);
 
   private:

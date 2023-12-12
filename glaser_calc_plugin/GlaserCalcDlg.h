@@ -20,6 +20,7 @@
 #include <wx/grid.h>
 #include "GlaserDiagram.h"
 #include <wx/choice.h>
+#include <wx/valtext.h>
 #include <wx/collpane.h>
 #include <wx/dialog.h>
 
@@ -42,6 +43,10 @@ class GlaserCalcDlg : public wxDialog
 		GlaserDiagram* m_GlaserDiagram;
 		wxStaticText* m_UValueText;
 		wxTextCtrl* m_UValueCtrl;
+		wxStaticText* m_mtText;
+		wxTextCtrl* m_mtCtrl;
+		wxStaticText* m_mvText;
+		wxTextCtrl* m_mvCtrl;
 		wxCollapsiblePane* m_collapsiblePaneParameter;
 		wxChoice* m_ParameterChoice;
 		wxStaticText* m_PhiInsideText;
@@ -70,7 +75,7 @@ class GlaserCalcDlg : public wxDialog
 
 	public:
 
-		GlaserCalcDlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 383,680 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxSTAY_ON_TOP );
+		GlaserCalcDlg( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 383,680 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 
 		~GlaserCalcDlg();
 
