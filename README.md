@@ -9,3 +9,11 @@ Missing values e.g. for the thermal conductivity coefficient λ and the vapour d
 
 ## User Interface
 The user interface is based on [wxWidgets](https://www.wxwidgets.org/) and was made with [wxFormBuilder](https://github.com/wxFormBuilder/wxFormBuilder).
+
+## Dependencies
+
+### Use of vcpkg:
+
+|Package Name         |Install Command                            |
+|:---                 |:---                                       |
+|wxwidgets            |vcpkg install wxwidgets triplet=x64-windows|
