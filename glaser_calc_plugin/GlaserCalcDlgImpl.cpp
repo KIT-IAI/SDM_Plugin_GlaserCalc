@@ -61,6 +61,18 @@ GlaserCalcDlgImpl::GlaserCalcDlgImpl(wxWindow* parent, wxWindowID id, const wxSt
   wxFloatingPointValidator<float> floatValidatorPsOutside(0, &m_PsOutside, wxNUM_VAL_ZERO_AS_BLANK);
   floatValidatorPsOutside.SetRange(0, 3000);
   m_PsOutsideCtrl->SetValidator(floatValidatorPsOutside);
+
+  wxFloatingPointValidator<float> floatValidatorUValue(3, &m_uValue, wxNUM_VAL_ZERO_AS_BLANK);
+  floatValidatorUValue.SetRange(0, 10);
+  m_UValueCtrl->SetValidator(floatValidatorUValue);
+
+  wxFloatingPointValidator<float> floatValidatormt(3, &m_mT, wxNUM_VAL_ZERO_AS_BLANK);
+  floatValidatormt.SetRange(0, 10);
+  m_mtCtrl->SetValidator(floatValidatormt);
+
+  wxFloatingPointValidator<float> floatValidatormv(3, &m_mV, wxNUM_VAL_ZERO_AS_BLANK);
+  floatValidatormv.SetRange(0, 10);
+  m_mvCtrl->SetValidator(floatValidatormv);
 }
 
 GlaserCalcDlgImpl::~GlaserCalcDlgImpl()
@@ -152,9 +164,9 @@ void GlaserCalcDlgImpl::OnThetaInsideKillFocus(wxFocusEvent& event)
 
       pParameter->ThetaInside = m_ThetaInside;
     }
-  }
 
-  updateValues();
+    updateValues();
+  }
 }
 
 void GlaserCalcDlgImpl::OnThetaOutsideKillFocus(wxFocusEvent& event)
@@ -375,7 +387,7 @@ void GlaserCalcDlgImpl::updateValues()
     // Ps
     if (!glaserData.results.Ps.empty())
     {
-      m_grid->SetCellValue(row, 6, wxString::FromDouble(glaserData.results.Ps[row + 1]));
+      m_grid->SetCellValue(row, 6, wxString::FromDouble(glaserData.results.Ps[row+1]));
     }
 
     m_grid->SetReadOnly(row, 6, true);
@@ -387,16 +399,18 @@ void GlaserCalcDlgImpl::updateValues()
   R += pParameter->RsInside;
   R += pParameter->RsOutside;
 
-  m_UValueCtrl->SetValue(wxString::FromDouble(1/R));
+  m_uValue = 1/R;
 
-  m_mtCtrl->SetValue(wxString::FromDouble(glaserData.results.mT));
-  m_mvCtrl->SetValue(wxString::FromDouble(glaserData.results.mV));
+  m_mT = glaserData.results.mT;
+  m_mV = glaserData.results.mV;
 
   if (glaserData.results.mT > glaserData.results.mV)
   {
-    m_mtCtrl->SetForegroundColour(*wxBLACK);
-    m_mvCtrl->SetForegroundColour(*wxBLACK);
+    m_mtCtrl->SetForegroundColour(*wxRED);
+    m_mvCtrl->SetForegroundColour(*wxRED);
   }
+
+  TransferDataToWindow();
 
   m_grid->AutoSizeColumns();
 

@@ -8,6 +8,7 @@
 
 #include "IFCDBInterfaceVersion.hpp"
 #include "PluginInterfaceVersion.hpp"
+#include "ComponentRegistry.hpp"
 
 using namespace std;
 using namespace sdm::plugin;
@@ -45,9 +46,9 @@ void GlaserCalcAction::execute() const
 
 PluginGlaserCalc::PluginGlaserCalc()
 {
-	m_liveLogObserver.attach([this](LiveLogInterface* pLogger) { m_GlaserCalcAction.setLogger(pLogger); });
-  m_documentObserver.attach([this](IfcDB::Populationi* pDB) { m_GlaserCalcAction.setDB(pDB); IfcDB::assignGlobalStates(pDB); } );
-	m_documentObserver.attach([this](IfcDB::utils::PopulationSubject* pStates) { m_GlaserCalcAction.setStates(dynamic_cast<IfcDB::utils::PopulationStates*>(pStates)); });
+  m_liveLogObserver.attach([&](LiveLogInterface* pLogger) { m_GlaserCalcAction.setLogger(pLogger); });
+  m_documentObserver.attach([&](IfcDB::Populationi* pDB) { m_GlaserCalcAction.setDB(pDB); IfcDB::assignGlobalStates(pDB); } );
+  m_documentObserver.attach([&](IfcDB::utils::PopulationSubject* pStates) { m_GlaserCalcAction.setStates(dynamic_cast<IfcDB::utils::PopulationStates*>(pStates)); });
 }
 
 Version PluginGlaserCalc::getInterfaceVersion() const
@@ -78,17 +79,11 @@ std::vector<Feature*> PluginGlaserCalc::getFeatures() const
 
 ComponentInfo PluginGlaserCalc::getComponentInfo(const RequiredComponent& requiredComponent) const
 {
-  if (requiredComponent.version == IFCDB_INTERFACE_COMPONENT_VERSION)
-  {
-    return { ComponentState::SUPPORTED, std::string{IFCDB_INTERFACE_COMPONENT_VERSION} };
-  }
+  ComponentRegistry availableComponents;
+  availableComponents.addAvailable(IFCDB_INTERFACE_COMPONENT_NAME, IFCDB_INTERFACE_COMPONENT_VERSION, IFCDB_INTERFACE_COMPONENT_HINT);
+  availableComponents.addAvailable(PLUGIN_INTERFACE_COMPONENT_NAME, PLUGIN_INTERFACE_COMPONENT_VERSION, PLUGIN_INTERFACE_COMPONENT_HINT);
 
-  if (requiredComponent.version == PLUGIN_INTERFACE_COMPONENT_VERSION)
-  {
-    return { ComponentState::SUPPORTED, std::string{PLUGIN_INTERFACE_COMPONENT_VERSION} };
-  }
-
-  return { ComponentState::UNSUPPORTED, "" };
+  return availableComponents.getInfo(requiredComponent);
 }
 
 const sdm::plugin::InitializationState& PluginGlaserCalc::getInitializationState() const

@@ -58,4 +58,7 @@ class GlaserCalcDlgImpl : public GlaserCalcDlg
     float m_ThetaOutside = 0.0;
     float m_PsInside = 0.0;
     float m_PsOutside = 0.0;
+    float m_uValue = 0.0;
+    float m_mT = 0.0;
+    float m_mV = 0.0;
 };

@@ -53,14 +53,14 @@ void GlaserDiagram::OnPaint(wxPaintEvent& event)
       double xPos(0.0);
 
       int i(0);
-      double PsXa = origin.m_x, PsYa = origin.m_y - (yChartRange * m_pParameter->PsInside) / m_pParameter->PsInside;
+      double PsXa = origin.m_x, PsYa = origin.m_y - std::min(yChartRange, (yChartRange * m_pParameter->PsInside) / m_pParameter->PsInside);
       double PsXe = 0.0, PsYe = 0.0;
 
       if (!m_pGlaserData->results.Ps.empty())
       {
         // Internal air -> Internal surface
         PsXe = origin.m_x;
-        PsYe = origin.m_y - (yChartRange * m_pGlaserData->results.Ps[i] / m_pParameter->PsInside);
+        PsYe = origin.m_y - std::min(yChartRange, (yChartRange * m_pGlaserData->results.Ps[i] / m_pParameter->PsInside));
 
         pContext->SetPen(*wxRED_PEN);
         pContext->StrokeLine(PsXa, PsYa, PsXe, PsYe);
@@ -91,7 +91,7 @@ void GlaserDiagram::OnPaint(wxPaintEvent& event)
           //if ((Range * Sd[i]) < 10) PsXa = 578 + NewX - 10;
 
           PsXe = origin.m_x + xPos;
-          PsYe = origin.m_y - (yChartRange * m_pGlaserData->results.Ps[i+1] / m_pParameter->PsInside);
+          PsYe = origin.m_y - std::min(yChartRange, (yChartRange * m_pGlaserData->results.Ps[i + 1] / m_pParameter->PsInside));
 
           // Ps
           pContext->SetPen(*wxRED_PEN);
@@ -107,7 +107,7 @@ void GlaserDiagram::OnPaint(wxPaintEvent& event)
       if (!m_pGlaserData->results.Ps.empty())
       {
         // Outside surface -> Outside air
-        PsYe = origin.m_y - (yChartRange * m_pParameter->PsOutside / m_pParameter->PsInside);
+        PsYe = origin.m_y - std::min(yChartRange, (yChartRange * m_pParameter->PsOutside / m_pParameter->PsInside));
 
         pContext->SetPen(*wxRED_PEN);
         pContext->StrokeLine(PsXa, PsYa, PsXe, PsYe);
