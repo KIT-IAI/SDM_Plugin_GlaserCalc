@@ -20,7 +20,7 @@ The user interface is based on [wxWidgets](https://www.wxwidgets.org/) and was m
 
 ### How to cite:
 
-```
+```bibtex
 @software{SDM_Plugin_GlaserCalc,
 	title        = {SDM_Plugin_Papermodel},
 	author       = {{Andreas Geiger}},
