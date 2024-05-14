@@ -17,3 +17,14 @@ The user interface is based on [wxWidgets](https://www.wxwidgets.org/) and was m
 |Package Name         |Install Command                            |
 |:---                 |:---                                       |
 |wxwidgets            |vcpkg install wxwidgets triplet=x64-windows|
+
+### How to cite:
+
+```
+@software{SDM_Plugin_GlaserCalc,
+	title        = {SDM_Plugin_Papermodel},
+	author       = {{Andreas Geiger}},
+	url          = {https://github.com/KIT-IAI/SDM_Plugin_Papermodel},
+	date         = {2023}
+}
+```
