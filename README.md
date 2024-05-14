@@ -18,7 +18,7 @@ The user interface is based on [wxWidgets](https://www.wxwidgets.org/) and was m
 |:---                 |:---                                       |
 |wxwidgets            |vcpkg install wxwidgets triplet=x64-windows|
 
-### How to cite:
+## How to cite:
 
 ```bibtex
 @software{SDM_Plugin_GlaserCalc,
