@@ -1,5 +1,5 @@
 # GlaserCalc
-The GlaserCalc plugin is based on the Glaser method, a mathematical verification method in accordance with DIN 4108-3, to determining whether and where condensation occurs in a component structure.
+The [KITModelViewer](https://github.com/KIT-IAI/SDM_KITModelViewer) GlaserCalc plugin is based on the Glaser method, a mathematical verification method in accordance with DIN 4108-3, to determining whether and where condensation occurs in a component structure.
 
 For the calculation the plugin uses the material information of individual IFC building elements. 
 The existing parameters for an IFC building element selected in the scene are transferred to the Glaser dialoge. The layer structure with the name of the individual layers and the layer thicknesses is taken over. If a component layer also has material properties, the plugin checks whether a value exists for the thermal conductivity. This value is located in the PropertySet **ThermalMaterialProperties** up to **IFC2x3** and in the PropertySet **Pset_MaterialThermal** from **IFC4** onwards.
