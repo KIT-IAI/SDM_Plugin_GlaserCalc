@@ -12,7 +12,7 @@ The user interface is based on [wxWidgets](https://www.wxwidgets.org/) and was m
 
 ## Dependencies
 
-[KITModelViewer](https://www.iai.kit.edu/ifc) - Windows® freeware application. To build the project, you will need the [Plugin SDK](https://github.com/KIT-IAI/SDM_Plugin_SDK) and the libraries listed below.
+[KITModelViewer](https://www.iai.kit.edu/ifc) ia a Windows® freeware application. To build the project, you will need the [Plugin SDK](https://github.com/KIT-IAI/SDM_Plugin_SDK) and the libraries listed below.
 
 ### Use of vcpkg:
 
