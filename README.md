@@ -24,9 +24,9 @@ The user interface is based on [wxWidgets](https://www.wxwidgets.org/) and was m
 
 ```bibtex
 @software{SDM_Plugin_GlaserCalc,
-	title        = {SDM_Plugin_GlaserCalc},
-	author       = {{Andreas Geiger}},
+	title        = {{SDM\_Plugin\_GlaserCalc}},
+	author       = {Andreas Geiger},
 	url          = {https://github.com/KIT-IAI/SDM_Plugin_GlaserCalc},
-	date         = {2023}
+	year         = {2023}
 }
 ```
