@@ -19,6 +19,8 @@ The user interface is based on [wxWidgets](https://www.wxwidgets.org/) and was m
 |Package Name         |Install Command                            |
 |:---                 |:---                                       |
 |wxwidgets            |vcpkg install wxwidgets triplet=x64-windows|
+|fmt                  |vcpkg install fmt triplet=x64-windows      |
+|geographiclib 	      |vcpkg install geographiclib triplet=x64-windows|
 
 ## How to cite
 
